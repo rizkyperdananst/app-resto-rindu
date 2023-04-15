@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\ContohController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContohController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
 
-Route::get('/dashboard', function() {
-    return view('dashboard.dashboard');
-})->name('dashboard');
+Route::prefix('/admin')->group(function() {
+    Route::middleware('auth')->group(function() {
 
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    });
+});
 
 
 
