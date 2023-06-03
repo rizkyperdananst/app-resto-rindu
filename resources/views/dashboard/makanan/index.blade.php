@@ -8,7 +8,7 @@
             <div class="card shadow">
                 <div class="card-header d-flex justify-content-between">
                     <h4>Data Makanan</h4>
-                    <a href="#" class="btn btn-primary">Tambah</a>
+                    <a href="{{ route('makanan.create') }}" class="btn btn-primary">Tambah</a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -24,17 +24,19 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach ($makanans as $m)                                 
                                 <tr>
                                     <td>1</td>
-                                    <td>Gambar</td>
-                                    <td>Mie Ayam</td>
-                                    <td>10</td>
-                                    <td>15.000</td>
+                                    <td><img src="{{ url('storage/makanans/'. $m->gambar) }}" width="150" alt=""></td>
+                                    <td>{{ $m->nama }}</td>
+                                    <td>{{ $m->jumlah }}</td>
+                                    <td>{{ $m->harga }}</td>
                                     <td>
                                         <span>Edit</span>
                                         <span>Hapus</span>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
