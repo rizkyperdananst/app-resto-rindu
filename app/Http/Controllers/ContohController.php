@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class ContohController extends Controller
 {
-    public function rizky()
+    public function rizky_perdana()
     {
         return view('contoh');
     }

@@ -14,6 +14,12 @@
            <span>Makanan</span>
          </a>
        </li><!-- End Dashboard Nav -->
+       <li class="nav-item">
+         <a class="nav-link" href="{{ route('minuman.index') }}">
+           <i class="bi bi-grid"></i>
+           <span>Minuman</span>
+         </a>
+       </li><!-- End Dashboard Nav -->
  
        <li class="nav-item">
          <a class="nav-link collapsed" data-bs-target="#components-nav" data-bs-toggle="collapse" href="#">

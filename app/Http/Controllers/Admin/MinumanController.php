@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Makanan;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Minuman;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class MakananController extends Controller
+class MinumanController extends Controller
 {
     public function index()
     {
-        $makanans = Makanan::orderBy('id', 'desc')->get();
+        $minumans = Minuman::orderBy('id', 'desc')->get();
 
-        return view('dashboard.makanan.index', compact('makanans'));
+        return view('dashboard.minuman.index', compact('minumans'));
     }
 
     public function create()
     {
-        return view('dashboard.makanan.create');
+        return view('dashboard.minuman.create');
     }
 
     public function store(Request $request)
@@ -35,23 +35,23 @@ class MakananController extends Controller
 
         $extension = $request->file('gambar')->getClientOriginalExtension();
         $namaGambar = $nama .'-'. rand() .'.'. $extension;
-        $path = $request->file('gambar')->storeAs('makanans', $namaGambar, 'public');
+        $path = $request->file('gambar')->storeAs('minumans', $namaGambar, 'public');
 
-        $makanan = Makanan::create([
+        $minuman = Minuman::create([
             'gambar' => $namaGambar,
             'nama' => $request->nama,
             'jumlah' => $request->jumlah,
             'harga' => $request->harga,
         ]);
 
-        return redirect()->route('makanan.index')->with('success', 'Data Makanan Berhasil Di Tambahkan');
+        return redirect()->route('minuman.index')->with('success', 'Data Minuman Berhasil Di Tambahkan');
     }
-
+    
     public function edit($id)
     {
-        $m = Makanan::find($id);
+        $m = Minuman::find($id);
 
-        return view('dashboard.makanan.edit', compact('m'));
+        return view('dashboard.minuman.edit', compact('m'));
     }
 
     public function update(Request $request, $id)
@@ -66,38 +66,38 @@ class MakananController extends Controller
         $namaReplace = str_replace(' ', '', $request->nama);
         $nama = strtolower($namaReplace);
 
-        $makanan = Makanan::find($id);
+        $minuman = Minuman::find($id);
         
         if($request->file('gambar')) {
-            $namaGambarOld = 'storage/makanans/'. $makanan->gambar;
+            $namaGambarOld = 'storage/minumans/'. $minuman->gambar;
             if(File::exists($namaGambarOld)) {
                 File::delete($namaGambarOld);
                 
                 $extension = $request->file('gambar')->getClientOriginalExtension();
                 $namaGambar = $nama .'-'. rand() .'.'. $extension;
-                $path = $request->file('gambar')->storeAs('makanans', $namaGambar, 'public');
+                $path = $request->file('gambar')->storeAs('minumans', $namaGambar, 'public');
             }
         } else {
-            $namaGambar = $makanan->gambar;
+            $namaGambar = $minuman->gambar;
         }
 
-        $makanan = Makanan::find($id)->update([
+        $minuman = Minuman::find($id)->update([
             'gambar' => $namaGambar,
             'nama' => $request->nama,
             'jumlah' => $request->jumlah,
             'harga' => $request->harga,
         ]);
 
-        return redirect()->route('makanan.index')->with('success', 'Data Makanan Berhasil Di Update');
+        return redirect()->route('minuman.index')->with('success', 'Data Minuman Berhasil Di Update');
     }
 
     public function destroy($id)
     {
-        $makanan = Makanan::find($id);
-        $namaGambarOld = File::delete('storage/makanans/'. $makanan->gambar);
-        $makanan->delete();
+        $minuman = Minuman::find($id);
+        $namaGambarOld = File::delete('storage/minumans/'. $minuman->gambar);
+        $minuman->delete();
 
-        return redirect()->route('makanan.index')->with('success', 'Data Makanan Berhasil Di Hapus');
+        return redirect()->route('minuman.index')->with('success', 'Data Minuman Berhasil Di Hapus' . $minuman->id);
     }
 
 }
